@@ -1,32 +1,18 @@
 
 # eventd
 
-- **eventd** collects events then persist as CloudEvents format 
-- Built-in opinioed ETL & data schema 
-- Simple visualizations are included
+- **eventd** routes interested metrics/logs (events) to central data lake
+- **eventd** equips opinioed ETL & data schema for different events 
+- **eventd** provides simple visualization template via Data Studio
 
 
 ## Installation
 
-Install my-project with npm
-
-```bash
-  npm install my-project
-  cd my-project
-```
     
 ## Configuration
 
 
 ## Usage/Examples
-
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
-```
 
 
 ## How to test
