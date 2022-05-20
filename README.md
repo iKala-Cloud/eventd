@@ -8,7 +8,31 @@
 
 ## Installation
 
-    
+We use Terraform as our provision tool
+
+1. Prepare GCP service account with below permissions
+
+    ```
+    BigQuery Data Editor
+    Logs Configuration Writer
+    Project IAM Admin
+    Service Usage Admin
+    ```
+
+2. Set `GOOGLE_APPLICATION_CREDENTIALS` environment variable to authenticate Terraform
+
+    Set environment variable to the path of the service account key JSON file, e.g.
+
+    ```
+    export GOOGLE_APPLICATION_CREDENTIALS="/tmp/eventd-project-8636a2dc818e.json"
+    ```
+
+3. Use terrafrom to provison log sink and raw dataset
+
+    ```
+    terraform apply
+    ```
+
 ## Configuration
 
 
