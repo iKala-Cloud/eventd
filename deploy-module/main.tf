@@ -12,6 +12,24 @@ provider "google" {
   # Configuration options
 }
 
+variable "gcp_sink_resource_id" {
+  type        = string
+  description = "Where the log sink will be created, it could be projectID, folderID, organizationID"
+  nullable    = false
+}
+
+variable "gcp_sink_resource_type" {
+  type        = string
+  description = "Where the log sink will be created, it could be project, folder or organization"
+  nullable    = false
+}
+
+variable "gcp_destination_project_id" {
+  type        = string
+  description = "Which project the raw data BigQuery dataset will be located"
+  nullable    = false
+}
+
 module "log_export" {
   source                 = "terraform-google-modules/log-export/google"
   destination_uri        = module.destination.destination_uri
@@ -24,14 +42,14 @@ module "log_export" {
     (logName:("logs/cloudaudit.googleapis.com%2Fsystem_event" OR "logs/cloudaudit.googleapis.com%2Factivity") AND resource.type="gce_instance")
   EOT
   log_sink_name          = "eventd_auditlog_bigquery"
-  parent_resource_id     = "gcp-expert-sandbox-browny"
-  parent_resource_type   = "project"
+  parent_resource_id     = var.gcp_sink_resource_id
+  parent_resource_type   = var.gcp_sink_resource_type
   unique_writer_identity = true
 }
 
 module "destination" {
   source                   = "terraform-google-modules/log-export/google//modules/bigquery"
-  project_id               = "gcp-expert-sandbox-browny"
+  project_id               = var.gcp_destination_project_id
   dataset_name             = "eventd_auditlog"
   log_sink_writer_identity = module.log_export.writer_identity
 }
