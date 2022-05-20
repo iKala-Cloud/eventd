@@ -30,9 +30,18 @@ variable "gcp_destination_project_id" {
   nullable    = false
 }
 
+variable "gcp_destination_dataset_id" {
+  type        = string
+  description = "Name the raw data BigQuery dataset"
+  nullable    = false
+}
+
 module "log_export" {
-  source                 = "terraform-google-modules/log-export/google"
-  destination_uri        = module.destination.destination_uri
+  source          = "terraform-google-modules/log-export/google"
+  destination_uri = module.destination.destination_uri
+  bigquery_options = {
+    use_partitioned_tables = true
+  }
   filter                 = <<EOT
     protoPayload.metadata.@type="type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata" OR
     protoPayload.methodName =~ ".*(Set|set)Iam.*" OR
@@ -50,6 +59,6 @@ module "log_export" {
 module "destination" {
   source                   = "terraform-google-modules/log-export/google//modules/bigquery"
   project_id               = var.gcp_destination_project_id
-  dataset_name             = "eventd_auditlog"
+  dataset_name             = var.gcp_destination_dataset_id
   log_sink_writer_identity = module.log_export.writer_identity
 }
