@@ -13,10 +13,10 @@ We use Terraform as our provision tool
 1. Prepare GCP service account with below permissions
 
     ```
-    BigQuery Data Editor
-    Logs Configuration Writer
-    Project IAM Admin
-    Service Usage Admin
+    Logs Configuration Writer (on the logsink's project, folder, or organization)
+    Project IAM Admin (on the destination project)
+    Service Usage Admin (on the destination project)
+    BigQuery Data Editor (on the destination project)
     ```
 
 2. Set `GOOGLE_APPLICATION_CREDENTIALS` environment variable to authenticate Terraform
